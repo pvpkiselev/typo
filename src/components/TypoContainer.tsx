@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils'
 import { FormatResult, useTypoStore } from '@/store/useTypoStore'
 import { FormatMode } from '@/types/typoTypes'
 
+import { CopyButton } from './CopyButton'
 import { Button } from './ui/button'
 import { Label } from './ui/label'
 import { Switch } from './ui/switch'
@@ -33,7 +34,7 @@ interface HighlightSwitchProps {
   setViewMode: (val: boolean) => void
 }
 
-export function HighlightSwitch(props: HighlightSwitchProps) {
+function HighlightSwitch(props: HighlightSwitchProps) {
   const { isHighlightingResult, setViewMode } = props
 
   return (
@@ -50,7 +51,7 @@ export function HighlightSwitch(props: HighlightSwitchProps) {
   )
 }
 
-export function FormatModeTabs(props: FormatModeTabsProps) {
+function FormatModeTabs(props: FormatModeTabsProps) {
   const { formatMode, setFormatMode } = props
 
   return (
@@ -66,13 +67,13 @@ export function FormatModeTabs(props: FormatModeTabsProps) {
   )
 }
 
-export function TextEditor(props: TextEditorProps) {
+function TextEditor(props: TextEditorProps) {
   const { value, onChange, className } = props
 
   return (
     <>
       <Textarea
-        className={cn(className)}
+        className={className}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder="Enter Text..."
@@ -81,7 +82,7 @@ export function TextEditor(props: TextEditorProps) {
   )
 }
 
-export function TextPreview(props: TextPreviewProps) {
+function TextPreview(props: TextPreviewProps) {
   const { isHighlightingResult, result, className } = props
 
   return (
@@ -119,6 +120,8 @@ export function TypoContainer() {
         <div className="flex w-full max-w-[50%] flex-[1_1_0] flex-col gap-4">
           <div className="flex min-h-10 w-full flex-wrap gap-4">
             <HighlightSwitch isHighlightingResult={isHighlightingResult} setViewMode={setViewMode} />
+
+            <CopyButton variant="secondary" textToCopy={result.result} />
           </div>
 
           <TextPreview
