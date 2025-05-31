@@ -22,9 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${interSans.variable} antialiased`}>
-        <div className="mx-auto max-w-5xl">
-          <MainNavigation />
-        </div>
+        <MainNavigation />
         <main>{children}</main>
       </body>
     </html>

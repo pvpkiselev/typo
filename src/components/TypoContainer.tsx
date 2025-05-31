@@ -85,6 +85,8 @@ function TextEditor(props: TextEditorProps) {
 function TextPreview(props: TextPreviewProps) {
   const { isHighlightingResult, result, className } = props
 
+  const displayText = isHighlightingResult ? result.highlighted : result.result
+
   return (
     <div
       className={cn(
@@ -92,7 +94,7 @@ function TextPreview(props: TextPreviewProps) {
         className
       )}
       dangerouslySetInnerHTML={{
-        __html: isHighlightingResult ? result.highlighted : result.result,
+        __html: displayText,
       }}
     />
   )
@@ -105,7 +107,7 @@ export function TypoContainer() {
   return (
     <div className="flex w-full flex-col gap-4">
       <div className="flex w-full flex-wrap items-start justify-between gap-4">
-        <div className="flex w-full max-w-[50%] flex-[1_1_0] flex-col gap-4">
+        <div className="flex w-full min-w-64 flex-1 flex-col gap-4">
           <div className="flex min-h-10 w-full flex-wrap gap-4">
             <FormatModeTabs formatMode={formatMode} setFormatMode={setFormatMode} />
 
@@ -117,7 +119,7 @@ export function TypoContainer() {
           <TextEditor className="h-fit min-h-64 resize-none" value={input} onChange={setInput} />
         </div>
 
-        <div className="flex w-full max-w-[50%] flex-[1_1_0] flex-col gap-4">
+        <div className="flex w-full min-w-64 flex-1 flex-col gap-4">
           <div className="flex min-h-10 w-full flex-wrap gap-4">
             <HighlightSwitch isHighlightingResult={isHighlightingResult} setViewMode={setViewMode} />
 

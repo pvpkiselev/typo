@@ -15,7 +15,11 @@ export function useCopyToClipboard() {
     setCopyStatus('loading')
 
     try {
-      await navigator.clipboard.writeText(text)
+      const tempDiv = document.createElement('div')
+      tempDiv.innerHTML = text
+      const plainText = tempDiv.textContent || ''
+
+      await navigator.clipboard.writeText(plainText)
       setCopyStatus('success')
     } catch (error: unknown) {
       console.error('Failed to copy text to clipboard', error)

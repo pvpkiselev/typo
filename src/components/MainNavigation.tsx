@@ -42,26 +42,28 @@ export default function MainNavigation() {
   const pathname = usePathname()
 
   return (
-    <NavigationMenu>
-      <NavigationMenuList>
-        {mainMenuItems.map((item) => (
-          <NavigationMenuItem key={item.title}>
-            <NavigationMenuLink asChild>
-              <Link
-                href={item.href}
-                className={cn(
-                  navigationMenuTriggerStyle(),
-                  'flex flex-row items-center gap-2',
-                  pathname === item.href && 'bg-accent/100'
-                )}
-              >
-                {item.icon && item.icon}
-                <span>{item.title}</span>
-              </Link>
-            </NavigationMenuLink>
-          </NavigationMenuItem>
-        ))}
-      </NavigationMenuList>
-    </NavigationMenu>
+    <div className="container max-w-5xl pt-2">
+      <NavigationMenu>
+        <NavigationMenuList>
+          {mainMenuItems.map((item) => (
+            <NavigationMenuItem key={item.title}>
+              <NavigationMenuLink asChild>
+                <Link
+                  href={item.href}
+                  className={cn(
+                    navigationMenuTriggerStyle(),
+                    'flex flex-row items-center gap-2',
+                    pathname === item.href && 'bg-accent/100'
+                  )}
+                >
+                  {item.icon && item.icon}
+                  <span>{item.title}</span>
+                </Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          ))}
+        </NavigationMenuList>
+      </NavigationMenu>
+    </div>
   )
 }

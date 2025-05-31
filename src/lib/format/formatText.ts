@@ -22,13 +22,6 @@ export function sanitizeHtml(input: string): string {
   })
 }
 
-function escapeHtml(str: string): string {
-  return str
-    .replace(/&(?!(#[0-9]+|#x[0-9a-f]+|[a-z]+);)/gi, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-}
-
 export function formatText(sourceText: string, formatMode: FormatMode): FormatResult {
   const tpConfig: TypografPrefs = {
     locale: ['ru', 'en-US'],
@@ -45,9 +38,14 @@ export function formatText(sourceText: string, formatMode: FormatMode): FormatRe
     case 'symbol':
       tpConfig.htmlEntity = { type: undefined }
       break
+    default:
+      console.warn(`Unknown formatMode: ${formatMode}. Defaulting to symbol-like behavior with escape.`)
+      tpConfig.htmlEntity = { type: undefined }
+      break
   }
 
   const tp = new Typograf(tpConfig)
+
   tp.enableRule('common/html/escape')
 
   const result = tp.execute(sourceText)
@@ -56,17 +54,14 @@ export function formatText(sourceText: string, formatMode: FormatMode): FormatRe
   const fragments: string[] = []
 
   for (const part of diff) {
-    const safeText = escapeHtml(part.value)
-
     if (part.added) {
-      fragments.push(`<span class="bg-green-100">${safeText}</span>`)
+      fragments.push(`<span class="bg-green-100">${part.value}</span>`)
     } else if (!part.removed) {
-      fragments.push(safeText)
+      fragments.push(part.value)
     }
   }
 
   const highlighted = fragments.join('')
-
   const safeHighlighted = sanitizeHtml(highlighted)
 
   return {
