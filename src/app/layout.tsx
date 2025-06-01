@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${interSans.variable} antialiased`}>
+      <body className={`${interSans.variable} font-sans antialiased`}>
         <MainNavigation />
         <main>{children}</main>
       </body>

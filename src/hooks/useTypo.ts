@@ -5,37 +5,33 @@ import { useState } from 'react'
 import { useTypoStore } from '@/store/useTypoStore'
 
 export function useTypo() {
-  const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const formatMode = useTypoStore((state) => state.formatMode)
-  const setResult = useTypoStore((state) => state.setResult)
+  const { currentInput, setCurrentInput, formatMode, setResult, setDisplayMode } = useTypoStore()
 
   const format = async () => {
-    if (!input.trim()) {
-      return
-    }
-
     setLoading(true)
     setError(null)
 
     try {
       const res = await fetch('/api/format', {
         method: 'POST',
-        body: JSON.stringify({
-          sourceText: input,
-          formatMode,
-        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ sourceText: currentInput, formatMode }),
       })
+
+      if (!res.ok) {
+        const errorData = await res.json()
+        throw new Error(errorData.error || 'Failed to format text')
+      }
 
       const data = await res.json()
 
-      if (!res.ok) {
-        throw new Error(data.error || 'Error')
-      }
-
-      setResult({ highlighted: data.highlighted, result: data.result })
+      setResult(data)
+      setDisplayMode('codeHighlighted')
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : 'Unknown Error')
     } finally {
@@ -43,5 +39,5 @@ export function useTypo() {
     }
   }
 
-  return { input, setInput, format, loading, error }
+  return { input: currentInput, setInput: setCurrentInput, format, loading, error }
 }

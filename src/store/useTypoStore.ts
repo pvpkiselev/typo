@@ -1,27 +1,33 @@
 import { create } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
 
-import { FormatMode } from '@/types/typoTypes'
-
-export type FormatResult = {
-  result: string
-  highlighted: string
-}
+import type { DisplayMode, FormatMode, FormatResult } from '@/types/typoTypes'
 
 interface TypoState {
   isHighlightingResult: boolean
-  formatMode: FormatMode
+
   setViewMode: (isHighlightingResult: boolean) => void
+
+  formatMode: FormatMode
   setFormatMode: (mode: FormatMode) => void
+
+  displayMode: DisplayMode
+  setDisplayMode: (mode: DisplayMode) => void
+
+  currentInput: string
+  setCurrentInput: (input: string) => void
+
   result: FormatResult
-  setResult: (res: { result: string; highlighted: string }) => void
+  setResult: (res: FormatResult) => void
 }
 
 export const useTypoStore = create<TypoState>()(
   immer((set) => ({
+    currentInput: '',
     isHighlightingResult: false,
     formatMode: 'symbol',
-    result: { result: '', highlighted: '' },
+    displayMode: 'original',
+    result: { code: '', codeHighlighted: '', previewResult: '', previewHighlighted: '' },
 
     setViewMode: (mode) =>
       set((state) => {
@@ -33,9 +39,19 @@ export const useTypoStore = create<TypoState>()(
         state.formatMode = mode
       }),
 
+    setDisplayMode: (mode) =>
+      set((state) => {
+        state.displayMode = mode
+      }),
+
     setResult: (res) =>
       set((state) => {
         state.result = res
+      }),
+
+    setCurrentInput: (input) =>
+      set((state) => {
+        state.currentInput = input
       }),
   }))
 )

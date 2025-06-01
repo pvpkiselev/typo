@@ -34,7 +34,7 @@ export function CopyButton(props: Props) {
       ) : (
         <Icons.Copy className="h-4 w-4" />
       )}
-      {copyStatus === 'success' ? 'Copied!' : copyStatus === 'error' ? 'Error' : 'Copy'}
+      {copyStatus === 'success' ? 'Copied!' : copyStatus === 'error' ? 'Error' : 'Copy Result'}
     </Button>
   )
 }

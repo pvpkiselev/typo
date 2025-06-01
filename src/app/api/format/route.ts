@@ -14,11 +14,13 @@ export async function POST(req: NextRequest) {
 
     const { sourceText, formatMode } = validationResult.data
 
-    const { result, highlighted } = formatText(sourceText, formatMode)
+    const { code, codeHighlighted, previewResult, previewHighlighted } = formatText(sourceText, formatMode)
 
     return NextResponse.json({
-      result,
-      highlighted,
+      code,
+      codeHighlighted,
+      previewResult,
+      previewHighlighted,
     })
   } catch (e: unknown) {
     console.error(e)
