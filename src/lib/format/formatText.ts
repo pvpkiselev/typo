@@ -138,7 +138,6 @@ export function formatText(sourceText: string, formatMode: FormatMode): FormatRe
   const sanitizedDecodedSourceText = sanitizePreviewDisplayHtml(decodedSourceText)
 
   const rawPreviewHighlighted = createDiffHighlighted(sanitizedDecodedSourceText, previewResult, 'preview')
-
   const previewHighlighted = sanitizePreviewDisplayHtml(rawPreviewHighlighted)
 
   const finalResult: FormatResult = {
